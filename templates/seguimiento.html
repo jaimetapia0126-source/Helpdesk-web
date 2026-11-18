@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block titulo %}Ticket {{ t.codigo }}{% endblock %}
+{% block contenido %}
+<section class="tarjeta">
+  <div class="encabezado">
+    <h1>Ticket {{ t.codigo }}</h1>
+    <span class="etiqueta {{ CLASES[t.estado] }}">{{ t.estado }}</span>
+  </div>
+
+  <ol class="etapas">
+    {% for e in ESTADOS %}
+      <li class="{{ CLASES[e] }} {{ 'activa' if e == t.estado }}">{{ e }}</li>
+    {% endfor %}
+  </ol>
+
+  <dl class="datos">
+    <dt>Cliente</dt><dd>{{ t.cliente if es_admin else t.nombre }}</dd>
+    {% if es_admin %}
+      <dt>Teléfono</dt><dd>{{ t.telefono }}</dd>
+      <dt>Dirección</dt><dd>{{ t.direccion }}</dd>
+    {% endif %}
+    <dt>Categoría</dt><dd>{{ t.categoria }}</dd>
+    <dt>Prioridad</dt><dd>{{ t.prioridad }}</dd>
+    <dt>Creado</dt><dd>{{ t.creado }}</dd>
+    <dt>Actualizado</dt><dd>{{ t.actualizado }}</dd>
+    <dt>Asunto</dt><dd>{{ t.asunto }}</dd>
+    <dt>Descripción</dt><dd>{{ t.descripcion or '—' }}</dd>
+  </dl>
+</section>
+
+<section class="tarjeta">
+  <h2>Historial de seguimiento</h2>
+  <div class="tabla-wrap">
+  <table>
+    <thead><tr><th>Fecha</th><th>Estado</th><th>Responsable</th><th>Comentario</th></tr></thead>
+    <tbody>
+    {% for s in t.seguimientos %}
+      <tr class="fila {{ CLASES[s.estado] }}">
+        <td>{{ s.fecha }}</td><td>{{ s.estado }}</td><td>{{ s.responsable }}</td><td>{{ s.comentario }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+{% if es_admin %}
+<section class="tarjeta">
+  <h2>Actualizar estado del caso</h2>
+  {% if t.estado == 'Finalizado' %}
+    <p class="aviso ok">Este caso está FINALIZADO y ya no admite cambios.</p>
+  {% else %}
+  <form method="post" action="{{ url_for('cambiar_estado', codigo=t.codigo) }}" class="grid2">
+    <label>Nuevo estado
+      <select name="estado" id="estado">{% for e in ESTADOS %}<option {{ 'selected' if e==t.estado }}>{{ e }}</option>{% endfor %}</select>
+    </label>
+    <label>Dependencia (si se escala)
+      <select name="dependencia" id="dep" disabled>{% for d in DEPENDENCIAS %}<option>{{ d }}</option>{% endfor %}</select>
+    </label>
+    <label>Responsable *<input name="responsable" required maxlength="80"></label>
+    <label class="full">Comentario *<textarea name="comentario" rows="3" required></textarea></label>
+    <div class="full acciones"><button class="btn" type="submit">Registrar seguimiento</button></div>
+  </form>
+  <script>
+    const est = document.getElementById('estado'), dep = document.getElementById('dep');
+    function sync(){ dep.disabled = est.value !== 'Escalado a dependencia superior'; }
+    est.addEventListener('change', sync); sync();
+  </script>
+  {% endif %}
+  <form method="post" action="{{ url_for('eliminar', codigo=t.codigo) }}"
+        onsubmit="return confirm('¿Eliminar este ticket y todo su historial?');" class="acciones">
+    <button class="btn peligro" type="submit">Eliminar ticket</button>
+  </form>
+</section>
+{% endif %}
+{% endblock %}

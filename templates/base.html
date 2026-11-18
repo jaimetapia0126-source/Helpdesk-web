@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Mesa de Ayuda{% endblock %} · Help Desk</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <a class="marca" href="{{ url_for('nuevo') }}">🛠️ Mesa de Ayuda</a>
+  <nav>
+    <a href="{{ url_for('nuevo') }}">Nuevo ticket</a>
+    <a href="{{ url_for('consulta') }}">Consultar caso</a>
+    {% if es_admin %}
+      <a href="{{ url_for('tickets') }}">Tickets</a>
+      <a href="{{ url_for('reportes') }}">Reportes</a>
+      <a href="{{ url_for('logout') }}">Salir</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Panel técnico</a>
+    {% endif %}
+  </nav>
+</header>
+<main class="contenedor">
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in mensajes %}<div class="aviso {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+  {% block contenido %}{% endblock %}
+</main>
+<footer class="pie">Mesa de Ayuda · Sistema de gestión de tickets</footer>
+</body>
+</html>

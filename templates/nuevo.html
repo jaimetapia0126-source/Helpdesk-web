@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Nuevo ticket{% endblock %}
+{% block contenido %}
+<section class="tarjeta">
+  <h1>Registrar nuevo ticket</h1>
+  <p class="muted">Cuéntanos tu problema y generaremos un código para que puedas seguir tu caso.</p>
+  <form method="post" class="grid2">
+    <label>Nombre *<input name="nombre" value="{{ d.get('nombre','') }}" maxlength="80" required></label>
+    <label>Apellido *<input name="apellido" value="{{ d.get('apellido','') }}" maxlength="80" required></label>
+    <label>Dirección *<input name="direccion" value="{{ d.get('direccion','') }}" maxlength="200" required></label>
+    <label>Teléfono *<input name="telefono" value="{{ d.get('telefono','') }}" maxlength="15" inputmode="tel" required></label>
+    <label>Categoría
+      <select name="categoria">{% for c in CATEGORIAS %}<option {{ 'selected' if d.get('categoria')==c }}>{{ c }}</option>{% endfor %}</select>
+    </label>
+    <label>Prioridad
+      <select name="prioridad">{% for p in PRIORIDADES %}<option {{ 'selected' if (d.get('prioridad') or 'Media')==p }}>{{ p }}</option>{% endfor %}</select>
+    </label>
+    <label class="full">Asunto *<input name="asunto" value="{{ d.get('asunto','') }}" maxlength="150" required></label>
+    <label class="full">Descripción<textarea name="descripcion" rows="6">{{ d.get('descripcion','') }}</textarea></label>
+    <div class="full acciones">
+      <span class="muted">* Campos obligatorios</span>
+      <button class="btn" type="submit">Generar ticket</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
