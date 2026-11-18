@@ -61,3 +61,8 @@ tr.finalizado{background:var(--b-finalizado)}tr.escalado{background:var(--b-esca
 .barra-col{position:relative}
 .barra-col .nombre{position:absolute;bottom:-44px;width:100%}
 @media (max-width:700px){.grid2{grid-template-columns:1fr}.etapas{grid-template-columns:1fr 1fr}.datos{grid-template-columns:100px 1fr}}
+label.check{flex-direction:row;align-items:center;gap:8px;font-weight:400}
+label.check input{width:auto;padding:0}
+.centro{text-align:center;margin-top:16px}
+.info-cliente{background:#f1f4f8;border:1px solid var(--borde);border-radius:8px;padding:10px 14px;margin:12px 0 18px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.info-cliente a{margin-left:auto}

@@ -14,8 +14,8 @@
   </ol>
 
   <dl class="datos">
-    <dt>Cliente</dt><dd>{{ t.cliente if es_admin else t.nombre }}</dd>
-    {% if es_admin %}
+    <dt>Cliente</dt><dd>{{ t.cliente if ver_datos else t.nombre }}</dd>
+    {% if ver_datos %}
       <dt>Teléfono</dt><dd>{{ t.telefono }}</dd>
       <dt>Dirección</dt><dd>{{ t.direccion }}</dd>
     {% endif %}
