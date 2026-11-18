@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Ingresar{% endblock %}
+{% block contenido %}
+<section class="tarjeta angosta">
+  <h1>Ingresar</h1>
+  <p class="muted">Clientes: usa tu correo. Técnicos: usa tu usuario.</p>
+  <form method="post">
+    <label>Correo o usuario<input name="identificador" required autofocus></label>
+    <label>Contraseña<input name="clave" type="password" required></label>
+    <label class="check"><input type="checkbox" name="recordar" checked> Mantener sesión iniciada (30 días)</label>
+    <div class="acciones"><button class="btn" type="submit">Ingresar</button></div>
+  </form>
+  <p class="muted centro">¿No tienes cuenta? <a href="{{ url_for('registro') }}">Crear cuenta</a></p>
+</section>
+{% endblock %}

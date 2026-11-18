@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Crear cuenta{% endblock %}
+{% block contenido %}
+<section class="tarjeta">
+  <h1>Crear cuenta</h1>
+  <p class="muted">Te registras una sola vez. Tus datos quedan guardados y no tendrás que escribirlos en cada ticket.</p>
+  <form method="post" class="grid2">
+    <label>Nombre *<input name="nombre" value="{{ d.get('nombre','') }}" maxlength="80" required></label>
+    <label>Apellido *<input name="apellido" value="{{ d.get('apellido','') }}" maxlength="80" required></label>
+    <label>Dirección *<input name="direccion" value="{{ d.get('direccion','') }}" maxlength="200" required></label>
+    <label>Teléfono *<input name="telefono" value="{{ d.get('telefono','') }}" maxlength="15" inputmode="tel" required></label>
+    <label class="full">Correo electrónico * (será tu usuario)<input type="email" name="email" value="{{ d.get('email','') }}" maxlength="120" required></label>
+    <label>Contraseña * (mínimo 6 caracteres)<input type="password" name="clave" minlength="6" required></label>
+    <label>Repite la contraseña *<input type="password" name="clave2" minlength="6" required></label>
+    <div class="full acciones">
+      <span class="muted">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Ingresar</a></span>
+      <button class="btn" type="submit">Crear cuenta</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
