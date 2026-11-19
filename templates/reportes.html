@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Reportes{% endblock %}
+{% block contenido %}
+<section class="tarjeta">
+  <div class="encabezado">
+    <h1>Reportes</h1>
+    <a class="btn" href="{{ url_for('reporte_csv') }}">Exportar CSV</a>
+  </div>
+  <p class="total">Total de tickets: <strong>{{ total }}</strong></p>
+
+  <div class="barras">
+    {% for e in ESTADOS %}
+      {% set n = por_estado.get(e, 0) %}
+      <div class="barra-col">
+        <span class="valor">{{ n }}</span>
+        <div class="barra {{ CLASES[e] }}" style="height: {{ (n / maximo * 140) if maximo else 0 }}px"></div>
+        <span class="nombre">{{ e }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="grid3">
+  {% for titulo, datos in (('Por estado', por_estado), ('Por prioridad', por_prioridad), ('Por categoría', por_categoria)) %}
+  <section class="tarjeta">
+    <h2>{{ titulo }}</h2>
+    <table>
+      {% for k, n in datos.items() | sort(attribute='1', reverse=true) %}
+        <tr><td>{{ k }}</td><td class="num">{{ n }}</td><td class="num">{{ '%.1f' % (n / total * 100) if total else 0 }}%</td></tr>
+      {% else %}<tr><td class="muted">Sin datos</td></tr>{% endfor %}
+    </table>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}
