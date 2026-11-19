@@ -476,7 +476,7 @@ def demo():
 @app.route("/salud")
 def salud():
     db.session.execute(db.text("SELECT 1"))
-    return "ok"
+    return f"ok - base de datos: {db.engine.dialect.name}"
 
 
 if __name__ == "__main__":
